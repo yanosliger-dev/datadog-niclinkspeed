@@ -1,0 +1,13 @@
+### ll nic link
+
+from datadog_checks.base import AgentCheck
+from datadog_checks.base.utils.subprocess_output import get_subprocess_output
+
+
+class {{ agent_name }}(AgentCheck):
+
+    def check(self, instance):
+
+        speed, err, retcode = get_subprocess_output(['cat', '/sys/class/net/{{ main_nic }}/speed'], self.log, raise_on_empty_output=True)
+
+        self.gauge("{{ agent_name }}.{{ main_nic }}.speed", speed, tags=['TAG_KEY:TAG_VALUE'])
